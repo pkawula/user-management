@@ -3,7 +3,7 @@ import { worker } from "./browser";
 import { server } from "./server";
 
 if (isServer) {
-	server.listen({ onUnhandledRequest: "bypass" });
+	server().listen({ onUnhandledRequest: "bypass" });
 } else {
-	worker.start({ onUnhandledRequest: "bypass" });
+	worker().start({ onUnhandledRequest: "bypass" });
 }

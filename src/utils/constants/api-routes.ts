@@ -1,1 +1,1 @@
-export const API_EXAMPLE = "example";
+export const API_USERS = "users";

@@ -1,4 +1,4 @@
-import { exampleSlice } from "@/api/exampleSlice";
+import { usersSlice } from "@/api/usersSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,9 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 const createStore = () =>
 	configureStore({
 		reducer: {
-			[exampleSlice.reducerPath]: exampleSlice.reducer
+			[usersSlice.reducerPath]: usersSlice.reducer
 		},
+		middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(usersSlice.middleware),
 		devTools: process.env.NODE_ENV !== "production"
 	});
 
