@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-const createStore = () =>
+export const createStore = () =>
 	configureStore({
 		reducer: {
 			[usersSlice.reducerPath]: usersSlice.reducer

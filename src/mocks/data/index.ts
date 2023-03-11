@@ -13,7 +13,7 @@ export const db = factory({
 	}
 });
 
-const exampleUsers: IUser[] = [
+export const exampleUsers: IUser[] = [
 	{
 		city: "Winterfell",
 		email: "jon@snow.com",

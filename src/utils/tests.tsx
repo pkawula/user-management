@@ -1,6 +1,10 @@
 import { render, type RenderOptions } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { createStore } from "./store";
 
-const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => <>{children}</>;
+const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+	<Provider store={createStore()}>{children}</Provider>
+);
 
 const customRender = (
 	ui: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
