@@ -1,4 +1,5 @@
-import { usersSlice } from "@/store/slices/users-slice";
+import { usersApi } from "@/api/users-api";
+import { userUtilsSlice } from "@/store/slices/user-utils";
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -6,8 +7,10 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 export const createStore = () =>
 	configureStore({
 		reducer: {
-			[usersSlice.name]: usersSlice.reducer
+			[userUtilsSlice.name]: userUtilsSlice.reducer,
+			[usersApi.reducerPath]: usersApi.reducer
 		},
+		middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(usersApi.middleware),
 		devTools: process.env.NODE_ENV !== "production"
 	});
 

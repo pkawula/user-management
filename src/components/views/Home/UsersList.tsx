@@ -1,13 +1,15 @@
+import { useGetUsersQuery } from "@/api/users-api";
 import { Alert } from "@/components/shared/Alert";
 import { Button } from "@/components/shared/Button";
 import { Loading } from "@/components/shared/Loading";
 import { Table, TableTH } from "@/components/shared/Table";
-import { getUsersThunk } from "@/store/slices/users-slice";
+import { userSortAction } from "@/store/slices/user-utils";
 import { useAppDispatch, useAppSelector } from "@/utils/store";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import styled from "styled-components";
 import User from "./User";
+import UserDeleteModal from "./UserDeleteModal";
 
 const UsersWrapper = styled.div`
 	padding: 10px;
@@ -15,18 +17,31 @@ const UsersWrapper = styled.div`
 	overflow-x: auto;
 `;
 
+const SortButton = styled.button`
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+
+	span {
+		margin-left: 5px;
+	}
+
+	&:hover {
+		opacity: 0.8;
+	}
+`;
+
 export default function UsersList() {
-	const { error, data, sort, isFetching } = useAppSelector(({ users }) => users);
+	const { sortDir, deleteUser } = useAppSelector(({ userUtils }) => userUtils);
+
+	const { isError, isFetching, data } = useGetUsersQuery();
 
 	const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		const apiCall = dispatch(getUsersThunk());
-
-		return () => {
-			apiCall.abort();
-		};
-	}, [dispatch]);
+	const handleSort = useCallback(
+		() => dispatch(userSortAction(sortDir === "asc" ? "desc" : "asc")),
+		[dispatch, sortDir]
+	);
 
 	return (
 		<UsersWrapper>
@@ -34,13 +49,36 @@ export default function UsersList() {
 				<Loading />
 			) : (
 				<>
-					{data.length > 0 && (
+					{(data || []).length > 0 && (
 						<Table>
 							<thead>
 								<tr>
 									<TableTH>Id</TableTH>
 									<TableTH>Name</TableTH>
-									<TableTH>Username</TableTH>
+									<TableTH>
+										<SortButton
+											onClick={
+												handleSort
+											}
+										>
+											Username
+											{sortDir && (
+												<span
+													style={{
+														display: "inline-block",
+														transform: `rotate(${
+															sortDir ===
+															"asc"
+																? "-90deg"
+																: "90deg"
+														})`
+													}}
+												>
+													&gt;
+												</span>
+											)}
+										</SortButton>
+									</TableTH>
 									<TableTH>Email</TableTH>
 									<TableTH>City</TableTH>
 									<TableTH>Edit</TableTH>
@@ -48,7 +86,7 @@ export default function UsersList() {
 								</tr>
 							</thead>
 							<tbody>
-								{data.map((user) => (
+								{data!.map((user) => (
 									<User
 										key={user.id}
 										user={user}
@@ -57,12 +95,12 @@ export default function UsersList() {
 							</tbody>
 						</Table>
 					)}
-					{error && (
+					{isError && (
 						<Alert type="danger">
 							Error occurred while fetching users
 						</Alert>
 					)}
-					{data.length === 0 && (
+					{(!data || data.length === 0) && (
 						<Alert type="info">
 							There is no users 😭 <br />
 							Feel free to add one!
@@ -74,6 +112,12 @@ export default function UsersList() {
 								</Link>
 							</Button>
 						</Alert>
+					)}
+					{deleteUser && (
+						<UserDeleteModal
+							id={deleteUser.id}
+							name={deleteUser.name}
+						/>
 					)}
 				</>
 			)}

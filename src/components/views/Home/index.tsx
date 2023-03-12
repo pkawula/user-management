@@ -1,24 +1,29 @@
 import { Button } from "@/components/shared/Button";
 import { Header } from "@/components/shared/Header";
 import { Wrapper } from "@/components/shared/Wrapper";
-import { usersSort } from "@/store/slices/users-slice";
+import { userSortAction } from "@/store/slices/user-utils";
 import { useAppDispatch, useAppSelector } from "@/utils/store";
 import Link from "next/link";
 import { useCallback } from "react";
+import styled from "styled-components";
 import UsersList from "./UsersList";
 
+const Heading = styled.h1`
+	margin: 0;
+`;
+
 export function Home() {
-	const sort = useAppSelector(({ users }) => users.sort);
+	const sortDir = useAppSelector(({ userUtils }) => userUtils.sortDir);
 
 	const dispatch = useAppDispatch();
 
-	const clearSort = useCallback(() => dispatch(usersSort(null)), [dispatch]);
+	const clearSort = useCallback(() => dispatch(userSortAction(null)), [dispatch]);
 
 	return (
 		<Wrapper>
 			<Header>
-				<h1>Users List</h1>
-				{sort && (
+				<Heading>Users List</Heading>
+				{sortDir && (
 					<Button variant="danger" mode="fill" onClick={clearSort}>
 						Clear sort
 					</Button>
@@ -27,6 +32,7 @@ export function Home() {
 					<Link href="/add">Add user</Link>
 				</Button>
 			</Header>
+			<hr />
 			<UsersList />
 		</Wrapper>
 	);
