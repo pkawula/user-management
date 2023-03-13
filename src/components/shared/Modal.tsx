@@ -25,9 +25,10 @@ const ModalContent = styled.div`
 interface ModalProps {
 	children: React.ReactNode;
 	closeModal: () => void;
+	testId?: string;
 }
 
-export default function Modal({ children, closeModal }: ModalProps) {
+export default function Modal({ children, closeModal, testId }: ModalProps) {
 	const modalContentRef = useRef<HTMLDivElement>(null);
 
 	const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -41,7 +42,7 @@ export default function Modal({ children, closeModal }: ModalProps) {
 	};
 
 	const renderModal = () => (
-		<ModalWrapper onClick={handleOutsideClick}>
+		<ModalWrapper data-testid={testId} onClick={handleOutsideClick}>
 			<ModalContent ref={modalContentRef}>{children}</ModalContent>
 		</ModalWrapper>
 	);

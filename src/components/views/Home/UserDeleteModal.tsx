@@ -46,7 +46,7 @@ export default function UserDeleteModal({ id, name }: UserDeleteModalProps) {
 	);
 
 	return (
-		<Modal closeModal={closeModal}>
+		<Modal closeModal={closeModal} testId="delete-user-modal">
 			<Header>
 				<Heading>Delete User</Heading>
 			</Header>

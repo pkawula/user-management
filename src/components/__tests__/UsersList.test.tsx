@@ -1,6 +1,6 @@
 import { exampleUsers } from "@/mocks/data";
 import { render } from "@/utils/tests";
-import { waitForElementToBeRemoved } from "@testing-library/react";
+import { act, fireEvent, waitForElementToBeRemoved } from "@testing-library/react";
 import UsersList from "../views/Home/UsersList";
 
 describe("UsersList component", () => {
@@ -18,5 +18,27 @@ describe("UsersList component", () => {
 			expect(queryByText(user.email)).toBeInTheDocument();
 			expect(queryByText(user.username)).toBeInTheDocument();
 		});
+	});
+
+	it("opens delete modal when trying to remove user", async () => {
+		const { queryByText, queryByTestId, queryAllByTestId } = render(<UsersList />, {
+			container: document.body
+		});
+
+		const loading = queryByTestId("users-list-loading");
+		expect(loading).toBeInTheDocument();
+
+		await waitForElementToBeRemoved(() => queryByTestId("users-list-loading"));
+
+		const deleteButton = queryAllByTestId("delete-user-button")[0];
+
+		expect(deleteButton).toBeInTheDocument();
+
+		act(() => {
+			fireEvent.click(deleteButton);
+		});
+
+		expect(queryByTestId("delete-user-modal")).toBeInTheDocument();
+		expect(queryByText("Delete User")).toBeInTheDocument();
 	});
 });

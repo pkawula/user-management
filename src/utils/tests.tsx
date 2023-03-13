@@ -15,9 +15,4 @@ const customRender = (
 	options: RenderOptions = {}
 ) => render(ui, { wrapper: Providers, ...options });
 
-const delay = (delay = 500) =>
-	new Promise<void>((resolve) => {
-		setTimeout(resolve, delay);
-	});
-
-export { customRender as render, delay };
+export { customRender as render };

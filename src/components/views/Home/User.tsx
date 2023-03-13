@@ -28,7 +28,7 @@ export default function User({ user }: UserProps) {
 				</Button>
 			</TableTD>
 			<TableTD>
-				<Button variant="danger" onClick={deleteUser}>
+				<Button data-testid="delete-user-button" variant="danger" onClick={deleteUser}>
 					Delete
 				</Button>
 			</TableTD>
