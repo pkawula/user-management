@@ -1,3 +1,4 @@
+import AddUser from "@/components/views/Add";
 import Head from "next/head";
 
 export default function AddPage() {
@@ -6,7 +7,7 @@ export default function AddPage() {
 			<Head>
 				<title>Add user</title>
 			</Head>
-			Add user
+			<AddUser />
 		</>
 	);
 }

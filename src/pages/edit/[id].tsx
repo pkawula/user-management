@@ -1,3 +1,4 @@
+import EditUser from "@/components/views/Edit";
 import Head from "next/head";
 
 export default function EditPage() {
@@ -6,7 +7,7 @@ export default function EditPage() {
 			<Head>
 				<title>Edit user</title>
 			</Head>
-			Edit user
+			<EditUser />
 		</>
 	);
 }

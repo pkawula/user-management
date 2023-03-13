@@ -19,28 +19,28 @@ export const exampleUsers: User[] = [
 		email: "bar@bara.com",
 		name: "Bar Bara",
 		username: "Barbara",
-		id: uuid()
+		id: "test-user-fixed-id-1"
 	},
 	{
 		city: "New York",
 		email: "achag@example.com",
 		name: "Anthony Chag",
 		username: "anno",
-		id: uuid()
+		id: "test-user-fixed-id-2"
 	},
 	{
 		city: "Los Angeles",
 		email: "mark@facebook.com",
 		name: "Mark Zucker",
 		username: "Zucker",
-		id: uuid()
+		id: "test-user-fixed-id-3"
 	},
 	{
 		city: "San Francisco",
 		email: "claudia@murray.com",
 		name: "Claudia Murray",
 		username: "claudia1234",
-		id: uuid()
+		id: "test-user-fixed-id-4"
 	}
 ];
 

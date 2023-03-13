@@ -35,7 +35,7 @@ export const usersApi = createApi({
 			}),
 			invalidatesTags: (_r, _e, id) => [{ type: "Users", id }]
 		}),
-		addUser: builder.mutation<User, User>({
+		addUser: builder.mutation<User, Omit<User, "id">>({
 			query: (user) => ({
 				url: ``,
 				method: "POST",
@@ -44,18 +44,19 @@ export const usersApi = createApi({
 			invalidatesTags: () => [{ type: "Users", id: "LIST" }]
 		}),
 		updateUser: builder.mutation<User, User>({
-			query: (id) => ({
+			query: ({ id, ...user }) => ({
 				url: `/${id}`,
-				method: "PUT"
+				method: "PUT",
+				body: user
 			}),
 			invalidatesTags: (_r, _e, { id }) => [{ type: "Users", id }]
 		}),
-		getUser: builder.mutation<User, string>({
+		getUser: builder.query<User, string>({
 			query: (id) => ({
 				url: `/${id}`,
 				method: "GET"
 			}),
-			invalidatesTags: (_r, _e, id) => [{ type: "Users", id }]
+			providesTags: (_r, _e, id) => [{ type: "Users", id }]
 		})
 	})
 });
@@ -65,7 +66,7 @@ export const {
 	useDeleteUserMutation,
 	useAddUserMutation,
 	useUpdateUserMutation,
-	useGetUserMutation,
+	useGetUserQuery,
 	util: { updateQueryData }
 } = usersApi;
 
