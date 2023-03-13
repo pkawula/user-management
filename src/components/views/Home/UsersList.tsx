@@ -47,7 +47,7 @@ export default function UsersList() {
 	return (
 		<UsersWrapper>
 			{isFetching ? (
-				<Loading />
+				<Loading data-testid="users-list-loading" />
 			) : (
 				<>
 					{(data || []).length > 0 && (

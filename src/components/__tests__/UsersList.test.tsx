@@ -1,16 +1,16 @@
 import { exampleUsers } from "@/mocks/data";
-import { render, delay } from "@/utils/tests";
+import { render } from "@/utils/tests";
 import { waitForElementToBeRemoved } from "@testing-library/react";
-import { Home } from "../views/Home";
+import UsersList from "../views/Home/UsersList";
 
-describe("Home component", () => {
+describe("UsersList component", () => {
 	it("renders properly fetched users", async () => {
-		const { queryByText } = render(<Home />);
+		const { queryByText, queryByTestId } = render(<UsersList />);
 
-		const loading = queryByText("Loading...");
+		const loading = queryByTestId("users-list-loading");
 		expect(loading).toBeInTheDocument();
 
-		await waitForElementToBeRemoved(() => queryByText("Loading..."));
+		await waitForElementToBeRemoved(() => queryByTestId("users-list-loading"));
 
 		exampleUsers.forEach((user) => {
 			expect(queryByText(user.name)).toBeInTheDocument();
