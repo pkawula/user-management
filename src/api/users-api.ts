@@ -28,7 +28,7 @@ export const usersApi = createApi({
 				return [{ type: "Users", id: "LIST" }];
 			}
 		}),
-		deleteUser: builder.mutation<string, string>({
+		deleteUser: builder.mutation<User, string>({
 			query: (id) => ({
 				url: `/${id}`,
 				method: "DELETE"
@@ -65,5 +65,18 @@ export const {
 	useDeleteUserMutation,
 	useAddUserMutation,
 	useUpdateUserMutation,
-	useGetUserMutation
+	useGetUserMutation,
+	util: { updateQueryData }
 } = usersApi;
+
+export const sortData = (dir: "asc" | "desc" | null) =>
+	updateQueryData("getUsers", undefined, (users) => {
+		switch (dir) {
+			case "asc":
+				return users.sort((a, b) => a.name.localeCompare(b.name));
+			case "desc":
+				return users.sort((a, b) => b.name.localeCompare(a.name));
+			default:
+				return users;
+		}
+	});

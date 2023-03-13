@@ -1,4 +1,3 @@
-import { useDeleteUserMutation } from "@/api/users-api";
 import { Button } from "@/components/shared/Button";
 import { TableRow, TableTD } from "@/components/shared/Table";
 import { userDeleteModalAction } from "@/store/slices/user-utils";

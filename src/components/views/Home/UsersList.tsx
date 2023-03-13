@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from "@/api/users-api";
+import { sortData, useGetUsersQuery } from "@/api/users-api";
 import { Alert } from "@/components/shared/Alert";
 import { Button } from "@/components/shared/Button";
 import { Loading } from "@/components/shared/Loading";
@@ -33,15 +33,16 @@ const SortButton = styled.button`
 
 export default function UsersList() {
 	const { sortDir, deleteUser } = useAppSelector(({ userUtils }) => userUtils);
-
 	const { isError, isFetching, data } = useGetUsersQuery();
 
 	const dispatch = useAppDispatch();
 
-	const handleSort = useCallback(
-		() => dispatch(userSortAction(sortDir === "asc" ? "desc" : "asc")),
-		[dispatch, sortDir]
-	);
+	const handleSort = useCallback(() => {
+		const dir = sortDir === "asc" ? "desc" : "asc";
+
+		dispatch(userSortAction(dir));
+		dispatch(sortData(dir));
+	}, [dispatch, sortDir]);
 
 	return (
 		<UsersWrapper>

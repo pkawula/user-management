@@ -1,3 +1,4 @@
+import { sortData } from "@/api/users-api";
 import { Button } from "@/components/shared/Button";
 import { Header } from "@/components/shared/Header";
 import { Wrapper } from "@/components/shared/Wrapper";
@@ -17,7 +18,10 @@ export function Home() {
 
 	const dispatch = useAppDispatch();
 
-	const clearSort = useCallback(() => dispatch(userSortAction(null)), [dispatch]);
+	const clearSort = useCallback(() => {
+		dispatch(userSortAction(null));
+		dispatch(sortData(null));
+	}, [dispatch]);
 
 	return (
 		<Wrapper>
